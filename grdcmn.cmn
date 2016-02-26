@@ -1,0 +1,38 @@
+C************************************************************************
+C GRDCMN								*
+C*									*
+C* Grid library common area.						*
+C**									*
+C* Log:									*
+C* M. desJardins/GSFC	 6/87						*
+C* M. desJardins/GSFC	11/88	Save nav and anl blocks			*
+C* M. desJardins/GSFC	 4/89	Added new time sorting			*
+C************************************************************************
+	LOGICAL		gdwrt
+C*
+	COMMON /GRDCMN/
+     +		kgrid  (MMFILE),
+C!					Number of grids
+     +		gdwrt  (MMFILE),
+C!					Write access flag
+     +		khdrln (MMFILE),
+C!					Grid header length
+     +		kbfhdr (LLGDHD),
+C!					Buffer for grid header
+     +		savnav (256,MMFILE),
+C!					Navigation block
+     +		lnavbl (MMFILE),
+C!					Length of navigation block
+     +		savanl (128,MMFILE),
+C!					Analysis block
+     +		lanlbl (MMFILE),
+C!					Length of analysis block
+     +		igdatm (3,LLMXGT,MMFILE),
+C!					Sorted integer times
+     +		ndattm (LLMXGT,MMFILE),
+C!					Number of occations of times
+     +		ktgrid (MMFILE),
+C!					Number of times
+     +		ksrtl  (2,MMHDRS,MMFILE)
+C!					Sorted time/level list
+C*

@@ -1,0 +1,16 @@
+#----------------------     Sun (fujitsu)-----------------------------------
+FC=/opt/FSUNf90/bin/frt
+# use -Am for modules
+# FFLAGS= -c -Am -O3 -X9 -fw
+# FFLAGS= -c -g -X9 -fw
+# FFLAGS= -c -O3 -X9 -fw
+FFLAGS= -c -O3 -X9 -fw -DFLAGS
+# LDFLAGS= -lfj90 -lfj90f -lF77 -lM77 -lsunmath
+LDFLAGS= -lfj90 -lfj90f -lF77 -lM77 -lsunmath
+# LIBFLAGS= -L/opt/FSUNf90/lib -L/usr/local/SUNWspro/lib \
+# -R/opt/FSUNf90/lib -R/usr/local/SUNWspro/lib 
+LIBFLAGS= -L/opt/FSUNf90/lib -L/usr/local/SUNWspro/lib \
+-R/opt/FSUNf90/lib -R/usr/local/SUNWspro/lib 
+LINKFLAGS=
+#---------------------------------------------------------------------------
+include Makefile.common

@@ -1,0 +1,9 @@
+#----------------- DEC ----------------------------- 
+FC=pgf90
+LD=pgf90
+FFLAGS= -c -byteswapio -O
+LDFLAGS = -lg2c
+LDOPTIONS = 
+LINKFLAGS =
+#----------------------------------------------------
+include Makefile.common

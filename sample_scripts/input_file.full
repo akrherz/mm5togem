@@ -1,0 +1,74 @@
+# Name of the input MM5 file (DEFAULT = infile) [VAR = INNAM IN MM5TOGEM.F]
+infile
+# Name of the output GEMPAK file (DEFAULT = outfile) [VAR = OUTNAM IN MM5TOGEM.F]
+outfile
+# Names of the previous time's precipitation file, this time's precip file, domain id with a special initial hour, special initial hour (DEFAULT = tempfile,newtempfile,3,12) [VARS = TEMPFILE,NEWTEMPFILE,DOM_SPECIAL,SPECIAL_HOUR IN MM5TOGEM.F]
+tempfile,newtempfile,4,12
+# Overwrite output file if it exists? (0=no, DEFAULT 1=yes) [VAR = IOVERWRITE]
+0
+# Write out data on sigma levels? (0=no, DEFAULT 1=yes) [VAR = ISSIG]
+1
+# Write out data on pressure levels? (DEFAULT 0=no, 1=yes) [VAR = ISPRS] **GDVINT IS MUCH QUICKER THAN THIS PROGRAM**!!
+0
+# Packing precision for gempak file (DEFAULT = 3) [VAR = IPRECISE]
+3
+# Line 1:  Sfc Pressure Used (0=no, 1=yes), Number of Levels [vars = issfp,num_pres_levs]
+# Line 2:  Pressure levels to use (highest to lowest) [VAR = PLEVS(II),II=1,NUM_PRES_LEVS]
+1,21
+1000,975,950,925,900,850,800,750,700,650,600,550,500,450,400,350,300,250,200,150,100
+# Line 1: Number of 3-d output fields [VAR = NUM_3D_OUTPUTS]
+# Lines 2 to num_3d_outputs+1 = Fields to output(in output order):
+#    1) Output field? (Y,N) 2) GEMPAK sigma level
+#    field name (A12) 3) GEMPAK pressure level field name (A12) 
+#    4) Descriptive Name.  (format: a1,',',a12,',',a12,',',a) [VARS = I_OUTPUT(),SIG_FLD(),PRS_FLD(),FLD_NAME()]
+12
+Y,UWND        ,UWND        ,U COMPONENT OFHORIZONTAL WIND (true east-west)
+Y,VWND        ,VWND        ,V COMPONENT OFHORIZONTAL WIND (true north-south)
+Y,UREL        ,UREL        ,U COMPONENT OFHORIZONTAL WIND (grid relative)
+Y,VREL        ,VREL        ,V COMPONENT OFHORIZONTAL WIND (grid relative)
+Y,WWND        ,WWND        ,W VERTICAL WIND COMPONENT (FULL LEVELS)    
+Y,TMPK        ,TMPK        ,TEMPERATURE (Kelvin)
+Y,DWPK        ,DWPK        ,DEWPOINT TEMPERATURE (Kelvin)
+Y,QCLD        ,QCLD        ,CLOUD WATER MIXING RATIO
+Y,PRES        ,PRES        ,PRESSURE ON SIGMA LEVELS
+Y,RTEN        ,RTEN        ,RAD TENDENCY
+Y,MIXR        ,MIXR        ,MIXING RATIO
+Y,QRAI        ,QRAI        ,RAIN WATER MIXING RATIO
+# Line 1: Number of 2-d output fields [VAR = NUM_2D_OUTPUTS]
+# Lines 2 to num_2d_outputs+1 = Fields to output(in output order):
+#    1) Output field? (Y,N) 2) GEMPAK sigma level
+#    field name (A12) 3) GEMPAK pressure level field name (A12) 
+#    4) Descriptive Name.  (format: a1,',',a12,',',a12,',',a) [VARS = I_OUTPUT(),SIG_FLD(),PRS_FLD(),FLD_NAME()]
+31
+Y,PRES        ,PRES        ,SURFACE PRESSURE
+Y,PMSL        ,PMSL        ,SEA LEVEL PRESSURE
+Y,TMPK        ,TMPK        ,GROUND TEMPERATURE (Kelvin)
+Y,P03M        ,P03M        ,3-HOUR PRECIPITATION (mm)
+Y,E03M        ,E03M        ,3-HOUR EXPLICIT PRECIPITATION (mm)
+Y,C03M        ,C03M        ,3-HOUR CONVECTIVE PRECIPITATION (mm)
+Y,HGHT        ,HGHT        ,TERRAIN HEIGHT
+Y,SIL1        ,SIL1        ,SOIL T 1
+Y,SIL2        ,SIL2        ,SOIL T 2
+Y,SIL3        ,SIL3        ,SOIL T 3
+Y,SIL4        ,SIL4        ,SOIL T 4
+Y,SIL5        ,SIL5        ,SOIL T 5
+Y,SIL6        ,SIL6        ,SOIL T 6
+Y,SRAD        ,SRAD        ,SW RAD
+Y,LRAD        ,LRAD        ,LW RAD
+Y,UST         ,UST         ,USTAR
+Y,LHFX        ,LHFX        ,LH FLUX
+Y,SHFX        ,SHFX        ,SH FLUX
+Y,PBLR        ,PBLR        ,PBL REGIME
+Y,PBL         ,PBL         ,PBL HEIGHT
+Y,SNOW        ,SNOW        ,SNOW COVER
+Y,LAND        ,LAND        ,LAND USE
+Y,DLON        ,DLON        ,LONGITUDE
+Y,DLAT        ,DLAT        ,LATITUDE
+Y,SLAB        ,SLAB        ,SLAB TEMP
+Y,CORI        ,CORI        ,CORIOLIS
+Y,MPDT        ,MPDT        ,MAP SCALE FACTOR
+Y,PTOT        ,PTOT        ,TOTAL PRECIP
+Y,CTOT        ,CTOT        ,CONVECTIVE TOTAL PRECIP
+Y,ETOT        ,ETOT        ,EXPLICIT TOTAL PRECIP
+Y,PSTR        ,PSTR        ,P STAR
+

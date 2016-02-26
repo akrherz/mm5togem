@@ -1,0 +1,8 @@
+2 Aug 2001
+Fixed a bug for old version 1 and 2 format files that was exiting
+before writing the GEMPAK file.
+26 Sep 2001
+Added capability to read iprog = 2 and iprog = 3 (RAWINS and INTERPF)
+format and enhancements to reading the dates.  All for MM5 version 3
+files.
+

@@ -1,0 +1,240 @@
+MM5TOGEM version 1.2  8/7/2001
+  (ovens@atmos.washington.edu 
+   ftp://ftp.atmos.washington.edu/ovens/mm5togem.20010807.tar)
+
+The basic things you need to do (after gunzipping and untarring the file):
+  try "make"
+  read and edit the input_file
+  run it.
+
+LINUX notes (added 8/7/2001):
+  on Linux, I had to do the following:
+  1) build GEMPAK (I used version 5.6.C.1) and I used the standard g77
+     version.  This required:
+     1.a) using RedHat (7.0), I added the OpenMotif RPMs from RedHat
+          7.1: openmotif-2.1.30-8.i386.rpm and 
+               openmotif-devel-2.1.30-8.i386.rpm
+          I obtained these from ftp://redhat.cac.washington.edu and used
+          rpm -I to install them as superuser.
+     1.b) made sure that config/Makeinc.linux had
+          MOTIFLIBS = -L/usr/X11R6/lib -lXm $(X11LIBDIR) -lSM -lICE -lXp -lXext
+     1.c) make clean all install >& make.out
+  2) I had to create a version of MCHPRM.PRM that worked with pgf90.
+     This file is included as MCHPRM.PRM.linux and it was patterned
+     after the SunOS version.
+  3) Makefile.Linux and Makefile have been updated to link in the
+     appropriate MCHPRM.PRM file.  Now simply type "make".
+  4) NOTE: because GEMPAK was built with g77 and mm5togem was built
+     with pgf90 -lg2c, the iargc() and getarg() features do not work!
+     This could be remedied, I believe, by building GEMPAK with
+     pgf90, but that is something for the future.
+   
+Sample Data (added 8/7/2001):
+  I have sample data available at
+  ftp://ftp.atmos.washington.edu/ovens/mm5togem_sample_data.tar.gz
+  This can be downloaded to test your version.
+
+
+This program took off from some code from Utah.  It is a hodgepodge
+and is released with absolutely no guarantees of any sort.
+
+There are also some sample scripts and input_files in sample_scripts/.
+
+Good luck.
+
+David Ovens
+(ovens@atmos.washington.edu)
+
+
+3-D FIELDS:
+MM5    GEMPAK NAME   Units   Description
+====   ===========   =====   ===========
+u      UWND	     m/s     north-relative eastward wind (as of 12/28/99)
+v      VWND	     m/s     north-relative northward wind (as of 12/28/99)
+u      UREL	     m/s     grid-relative eastward wind (as of 12/28/99)
+v      VREL	     m/s     grid-relative northward wind (as of 12/28/99)
+t      TMPK	     kelvin  temperature
+qv     MIXR	     g/kg    total mixing ratio
+qc     QCLD	     g/kg    cloud water mixing ratio
+qr     QRAI	     g/kg    rain water mixing ratio
+rten   RTEN	     K/day   radiative tendency
+w      WWND	     m/s     vertical wind
+pp			     pressure perturbation
+prs    PRES	     mb	     pressure
+cice   QICE	     g/kg    ice mixing ratio
+sice   QSNO	     g/kg    snow water mixing ratio
+--- derived fields --
+       DWPK	     kelvin  dewpoint temperature     
+       RELH	     %	     relative humidity
+       HGHT	     m	     geopotential height
+
+2-D Fields:
+p*     PSTR	     mb	     (reference) surface pressure minus ptop
+tg     TMPK, TGRD    kelvin  ground temperature
+rt     PTOT	     mm	     total accumulated rainfail
+rc     CTOT	     mm	     convective accumulated rainfail
+re     ETOT	     mm	     explicit accumulated rainfail
+       P03M	     mm	     total 3-hour rainfall
+       C03M	     mm	     convective 3-hour rainfail
+       E03M	     mm	     explicit 3-hour rainfail
+terr   HGHT	     m	     terrain elevation
+mpdt   MPDT		     map scale factor dot points     
+mpcr   MPCR		     map scale factor cross points
+dotcor CORI	     1/s     coriolis
+irst   SLAB	     K	     infinite reservoir slab temp
+lat    DLAT		     latitude
+lon    DLON		     longitude
+xluse  LAND		     land use
+xsnowc SNOW		     snow cover
+pblht  PBL	     m	     planetary boundary layer height
+regime PBLR	     	     planetary boundary layer regime
+shflux SHFX	     W/m^2   sensible heat flux
+lhflux LHFX	     W/m^2   latent heat flux
+ust    UST	     m/s     friction velocity
+lwdown LRAD	     W/m^2   longwave downward radiation
+swdown SRAD	     W/m^2   shortwave downward radiation 
+soilt  SILx	     K	     soil temperature in layer x (x = 1,2,3,4,5,6)
+graw			     graupel
+nci			     number concentration of ice
+tke			     turbulent kinetic energy
+--- derived fields --
+sfp    PRES	     mb	     surface pressure
+slp    PMSL	     mb	     sea-level pressure
+
+******** Utah Code README ************************************************
+
+This program converts output from TERRAIN, DATAGRID, RAWINS, INTERP(mminput),
+and MM5 to gempak format.  It also will interpolate the sigma level data from
+MM5 and INTERP output to pressure levels if requested.  During the pressure 
+level interpolation, values below ground will be extrapolated or set to lowest 
+sigma level values, depending on the variable.  All data is written out on the 
+dot point domain.  Cross point variables are interpolated to the dot point 
+domain.
+
+The code is based on a similar program written at SUNY Brockport, also called
+conv.  Major changes have been made to their code and they are in no way
+responsible for any possible bugs in this code.
+
+#############################################################################
+Directions:
+#############################################################################
+
+1) Edit the script "compile" if necessary to set up the proper links,
+library paths and optimizations.  Compile the program with the command:
+	compile conv
+
+2) Run the program.  No command line arguements are necessary.  The program
+will ask all the questions it needs answered.  The questions should be
+self-explanatory, but may vary depending on whether the output gempak file
+already exists or not.  Some command line arguements can be used.  Either
+look in the code, or type "conv -help" (actually -anything-you-want will work)
+to get a listing of the command line arguements accepted.
+
+#############################################################################
+
+Caution:  If the model arrays are too large or the number of output times is 
+too many, the first parameter statement in the code will need to be changed.  
+
+Caution:  If the map projection used in the MM5 is not Lambert Conic Conformal,
+some adjustments to the code may be needed.  It may work for Polar 
+Stereographic but has never been tested.  It does not work for Mercator 
+projections.
+
+Caution:  The limit to the number of grids in a gempak file is usually 3999.  
+Very large MM5 output files may need to be run for hours 0-12, 12-24, 24-36,
+etc., or they may be separated into pressure coordinate and sigma coordinate
+files.
+#############################################################################
+
+#############################################################################
+Program options:
+#############################################################################
+
+The output pressure levels can be changed by changing the values of the array
+plevs and adjusting the parameter kzp to be the right size.  
+
+
+Precipitation fields written out are the following:
+
+Total accumulated convective parameterized precipitation(cm):  CXXM
+Total accumulated explicit parameterized precipitation(cm):    EXXM
+Total accumulated explicit + convective precipitation(cm):     PXXM
+
+Additionally, 1, 3, 6, 12, and 24 hour precipitation is written out.  These
+grids are labeled as C01M,E01M,P01M,  C03M,E03M,P03M, etc.  The increments
+can be adjusted by changing the array iptimes in the code.  Values of 99 in
+the iptimes array will be ignored.
+
+If output interval from MM5 is not divisible by 60 minutes (i.e. 15, 30, or
+90 minutes output interval), C00M, E00M, and P00M may be output.  These are
+all precip totaled since the last output.  For example, if tape frequency
+is 15 minutes, P00M is 15 minute total precip.  To write out these recent
+precip grids, one item in the iptimes array should be 0.
+
+
+The interpolation/extrapolation to pressure levels is done in the subroutine
+pintp.  The last arguement in the subroutine call to pintp for each variable
+determines the type of extrapolation to be done below the surface.  If changes
+are desired, see the subroutine pintp for possible changes.  Extrapolation is
+only intended to be aesthetically pleasing in regions of high topography on
+850, and 700 mb plots, etc., which would otherwise have gaps in data.  Above
+the surface, extrapolation is linear in log of pressure between half-sigma
+levels.  
+
+#############################################################################
+Description of gempak file data:
+#############################################################################
+
+PARM:       Description:      
+ 
+TMPK        Temperature (Kelvin)
+HGHT        Geopotential Height (Meters) (on GVCORD = PRES)
+UREL        Grid relative U-Wind component (M/S)
+VREL        Grid relative V-wind component (M/S) 
+WWND        Vertical velocity (M/S)
+DWPK        Dewpoint (Kelvin)
+RELH        Relative humidity (%).  Only for output from datagrid/rawins.
+QCLD        Cloud water mixing ratio(g/kg)
+QRAI        Rain water mixing ratio(g/kg)
+PRES        Pressure(Mb) (only on model surface elevation: GVCORD=NONE)
+PMSL        Sea level reduced pressure at surface (GVCORD=NONE)
+TGRD        Model ground temperature(K)
+PXXM        grid scale + sub-grid scale precipitation accumulated since
+            model initialization time(CM)
+CXXM        Sub-Grid scale precipitation (from Kain-Fritsch scheme)
+            accumulated from model initialization time(CM)
+EXXM        Grid scale precipitation accumulated from model initialization(CM)
+P00M        Recent total precip (CM)
+C00M        Recent sub-grid scale precip.(CM)
+E00M        Recent grid scale precip.(CM)
+P01M        1-hour accumulated total precip.(CM)
+C01M        1-hour accumulated sub-grid scale precip.(CM)
+E01M        1-hour accumulated grid scale precip.(CM)
+P03M        3-hour accumulated total scale precip.(CM)
+C03M        3-hour accumulated sub-grid scale precip.(CM)
+E03M        3-hour accumulated grid scale precip.(CM)
+P06M        6-hour accumulated total scale precip.(CM)
+C06M        6-hour accumulated sub-grid scale precip.(CM)
+E06M        6-hour accumulated grid scale precip.(CM)
+P12M        12-hour accumulated total scale precip.(CM)
+C12M        12-hour accumulated sub-grid scale precip.(CM)
+E12M        12-hour accumulated grid scale precip.(CM)
+HGHT        Model surface elevation (on GVCORD = NONE)
+WATR        =1 for lake/ocean,=0 for land
+ 
+ 
+All PARMs with VCORD of PRES are interpolated from the MM5 model's
+sigma vertical coordinate system.  When vertical coordinate = ZAGL, or
+height above ground level, these PARMs are actually the values on the
+model's lowest sigma level, which is roughly a constant height (40 Meters)
+above ground level.  
+
+
+
+
+#############################################################################
+If you have any questions, suggestions, comments, or notice any bugs send 
+email to djonton@atmos.met.utah.edu
+
+
+

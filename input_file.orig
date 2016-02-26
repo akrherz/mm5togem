@@ -1,0 +1,72 @@
+# Name of the input MM5 file (DEFAULT = infile) [VAR = INNAM IN MM5TOGEM.F]
+infile
+# Name of the output GEMPAK file (DEFAULT = outfile) [VAR = OUTNAM IN MM5TOGEM.F]
+outfile
+# Names of the previous time's precipitation file, this time's precip file, domain id with a special initial hour, special initial hour (DEFAULT = tempfile,newtempfile,3,12) [VARS = TEMPFILE,NEWTEMPFILE,DOM_SPECIAL,SPECIAL_HOUR IN MM5TOGEM.F]
+tempfile,newtempfile,4,12
+# Overwrite output file if it exists? (0=no, DEFAULT 1=yes) [VAR = IOVERWRITE]
+1
+# Write out data on sigma levels? (0=no, DEFAULT 1=yes) [VAR = ISSIG]
+1
+# Write out data on pressure levels? (DEFAULT 0=no, 1=yes) [VAR = ISPRS] **GDVINT IS MUCH QUICKER THAN THIS PROGRAM**!!
+0
+# Packing precision for gempak file (DEFAULT = 3) [VAR = IPRECISE]
+3
+# Line 1:  Sfc Pressure Used (0=no, 1=yes), Number of Levels [vars = issfp,num_pres_levs]
+# Line 2:  Pressure levels to use (highest to lowest) [VAR = PLEVS(II),II=1,NUM_PRES_LEVS]
+1,21
+1000,975,950,925,900,850,800,750,700,650,600,550,500,450,400,350,300,250,200,150,100
+# Line 1: Number of 3-d output fields [VAR = NUM_3D_OUTPUTS]
+# Lines 2 to num_3d_outputs+1 = Fields to output(in output order):
+#    1) Output field? (Y,N) 2) GEMPAK sigma level
+#    field name (A12) 3) GEMPAK pressure level field name (A12) 
+#    4) Descriptive Name.  (format: a1,',',a12,',',a12,',',a) [VARS = I_OUTPUT(),SIG_FLD(),PRS_FLD(),FLD_NAME()]
+9
+Y,UWND        ,UWND        ,U COMPONENT OFHORIZONTAL WIND (north relative)
+Y,VWND        ,VWND        ,V COMPONENT OFHORIZONTAL WIND (north relative)
+Y,UREL        ,UREL        ,U COMPONENT OFHORIZONTAL WIND (grid relative)
+Y,VREL        ,VREL        ,V COMPONENT OFHORIZONTAL WIND (grid relative)
+Y,WWND        ,WWND        ,W VERTICAL WIND COMPONENT (FULL LEVELS)    
+Y,TMPK        ,TMPK        ,TEMPERATURE (Kelvin)
+Y,DWPK        ,DWPK        ,DEWPOINT TEMPERATURE (Kelvin)
+Y,QCLD        ,QCLD        ,CLOUD WATER MIXING RATIO
+Y,PRES        ,PRES        ,PRESSURE ON SIGMA LEVELS
+# Line 1: Number of 2-d output fields [VAR = NUM_2D_OUTPUTS]
+# Lines 2 to num_2d_outputs+1 = Fields to output(in output order):
+#    1) Output field? (Y,N) 2) GEMPAK sigma level
+#    field name (A12) 3) GEMPAK pressure level field name (A12) 
+#    4) Descriptive Name.  (format: a1,',',a12,',',a12,',',a) [VARS = I_OUTPUT(),SIG_FLD(),PRS_FLD(),FLD_NAME()]
+10
+Y,PRES        ,PRES        ,SURFACE PRESSURE
+Y,PMSL        ,PMSL        ,SEA LEVEL PRESSURE
+Y,TMPK        ,TMPK        ,GROUND TEMPERATURE (Kelvin)
+Y,P03M        ,P03M        ,3-HOUR PRECIPITATION (mm)
+Y,E03M        ,E03M        ,3-HOUR EXPLICIT PRECIPITATION (mm)
+Y,C03M        ,C03M        ,3-HOUR CONVECTIVE PRECIPITATION (mm)
+Y,HGHT        ,HGHT        ,TERRAIN HEIGHT
+Y,U10         ,U10         ,10-METER GRID RELATIVE WIND
+Y,V10         ,V10         ,10-METER GRID RELATIVE WIND
+Y,T2          ,T2          ,2-METER TEMPERATURE
+# not using the rest
+I,Y,MIXR,MIXR,MIXING RATIO                             
+I,Y,QRAI,QRAI,RAIN WATER MIXING RATIO                  
+I,Y,????,????,PRESSURE PERTURBATION                    
+I,Y,PSTX,PSTX,(REFERENCE) SURFACE PRESSURE MINUS PTOP  
+I,Y,TGRD,TGRD,GROUND TEMPERATURE                       
+I,Y,????,????,ACCUMULATED CONVECTIVE PRECIPITATION     
+I,Y,????,????,ACCUMULATED NONCONVECTIVE PRECIPITATION  
+I,Y,????,????,MAP SCALE FACTOR                         
+I,Y,????,????,CORIOLIS PARAMETER                       
+I,Y,????,????,INFINITE RESERVOIR SLAB TEMPERATURE      
+I,Y,????,????,LATITUDE (SOUTH NEGATIVE)                
+I,Y,????,????,LONGITUDE (WEST NEGATIVE)                
+I,Y,????,????,1-13 CATEGORIES OF LAND USE              
+I,Y,????,????,FLAGS FOR SNOW COVER DATA                
+I,Y,????,????,SENSIBLE HEAT FLUX J/S*M^2
+I,Y,????,????,LATENT HEAT FLUX J/S*M^2
+I,Y,????,????,LONGWAVE RADIATION W/M^2
+I,Y,????,????,SHORTWAVE RADIATION W/M^W
+I,Y,????,????,PLANETARY BOUNDARY LAYER HEIGHT
+I,Y,????,????,FRICTION VELOCITY M/S
+I,Y,????,????,PBL REGIME:NIGHTSTABLE=1, DAMPED MECHANICAL=2, FORCED CONV=3, FREE
+I,Y,????,????,MOISTURE AVAILABILITY                                              

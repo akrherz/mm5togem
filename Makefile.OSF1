@@ -1,0 +1,16 @@
+#----------------- DEC ----------------------------- 
+FC=f90
+LD=f90
+#FFLAGS= -c -convert big_endian -O5 -math_library accurate -fpe2 \
+#-check_bounds -extend_source
+#LDFLAGS = -convert big_endian -O5 -math_library accurate -fpe2 \
+#-check_bounds -extend_source
+#LDOPTIONS = -convert big_endian -O5 -math_library accurate 
+FFLAGS= -c -convert big_endian -O -math_library accurate -fpe2 \
+-check_bounds -extend_source
+LDFLAGS = -convert big_endian -O -math_library accurate -fpe2 \
+-check_bounds -extend_source
+LDOPTIONS = -convert big_endian -O -math_library accurate 
+LINKFLAGS =
+#----------------------------------------------------
+include Makefile.common

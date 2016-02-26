@@ -1,0 +1,57 @@
+SHELL=/bin/sh
+OS = `uname -s`
+
+LN = ln -s
+INCDIR = $(GEMPAKHOME)/include
+
+CMD = mm5togem.exe
+
+SYMLINKS = GEMPRM.PRM MCHPRM.PRM
+
+LIBS =  $(GEMLIB)/gemlib.a \
+        $(GEMLIB)/appl.a \
+        $(GEMLIB)/syslib.a \
+        $(GEMLIB)/gemlib.a
+
+.SUFFIXES: .o .c .f .x 
+
+OBJS = mm5togem.o
+
+all:	$(CMD)
+
+linuxfile:
+	/bin/cp MCHPRM.PRM.linux MCHPRM.PRM
+	$(LN) MCHPRM.PRM GEMINC:MCHPRM.PRM
+
+$(CMD): $(SYMLINKS) $(OBJS)
+	$(FC) $(LINKFLAGS) -o $(@) $(OBJS) $(LIBFLAGS) $(LIBS) $(LDFLAGS)
+	echo ""
+	echo "Once satisfied with $(CMD).$(OS), \"mv $(CMD).$(OS) ..\""
+	echo ""
+	mv $(CMD) $(CMD).$(OS)
+
+gfunc_rename: $(SYMLINKS) gfunc_rename.o
+	$(LD) $(LDOPTIONS) -o $@ gfunc_rename.o $(LIBS)
+	echo ""
+	echo "Once satisfied with gfunc_rename.$(OS), \"mv gfunc_rename.$(OS) ..\""
+	echo ""
+	mv gfunc_rename gfunc_rename.$(OS)
+
+$(SYMLINKS) :
+	    $(LN) $(INCDIR)/$(@:MCHPRM.PRM=$(OS)/MCHPRM.PRM) ./$@ 
+	    $(LN) $@ ./GEMINC:$@
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+.f.exe:
+	$(FC) -o $@ $(FFLAGS) $<  \
+        $(GEMLIB) \
+        $(APPL) \
+        $(SYSLIB) \
+        $(GEMLIB)
+
+clean :
+	/bin/rm -f core *.o $(SYMLINKS) GEMINC:*
+
+
